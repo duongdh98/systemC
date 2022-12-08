@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "export SYSTEMC_HOME=/usr/local/systemc && cd demo && g++ -I. -I$SYSTEMC_HOME/include -L. -L$SYSTEMC_HOME/lib-linux64 -Wl,-rpath=$SYSTEMC_HOME/lib-linux64 -o main main.cpp include/*.hpp src/*.cpp -lsystemc -lm && ./main && cd.."
+    "build": "export SYSTEMC_HOME=/usr/local/systemc && cd demo && g++ -I. -I$SYSTEMC_HOME/include -L. -L$SYSTEMC_HOME/lib-linux64 -Wl,-rpath=$SYSTEMC_HOME/lib-linux64 -o main main.cpp include/*.hpp src/*.cpp -lsystemc -lm && clear && ./main && cd .."
   },
   "repository": {
     "type": "git",

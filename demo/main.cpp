@@ -12,8 +12,13 @@ SC_MODULE (hello_world) {
 
 // sc_main in top level function like in C++ main
 int sc_main(int argc, char* argv[]) {
+
+  cout << "\n\n=== Begin Program of systemC  ========================================================== \n\n";
+
   hello_world hello("HELLO");
   // Print the hello world
   hello.say_hello();
+
+  cout << "\n\n=== End Program of systemC    ==========================================================";
   return(0);
 }
