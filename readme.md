@@ -17,7 +17,7 @@
 Save the file as hello.cpp. Use following command to export a variable SYSTEMC_HOME.
 
 ```sh
-    export SYSTEMC_HOME=/usr/local/systemc230/
+    export SYSTEMC_HOME=/usr/local/systemc/
 ```
 
 Now you can use following command to compile the program:
