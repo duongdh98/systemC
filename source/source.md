@@ -1,6 +1,6 @@
 # < SystemC >
 
-## [1. SystemC Module](#1)
+## [1. SystemC Module](#1) <a id="start"></a>
 ## [2. Constructor: SC_CTOR](#2)
 ## [3. SC_HAS_PROCESS](#3)
 ## [4. Simulation Process](#4)
@@ -145,6 +145,7 @@ SystemC provides a macro (SC_CTOR) for convenience when declaring or defining a 
     ctor_module_c zctor_module_C("zctor_module_c", 7);
 
   ```
+## [>>>>>>> Back](#start)
 
 ## <a id="3"></a>3. SC_HAS_PROCESS
 SC_HAS_PROCESS is introduced since systemC v2.0. It takes only one argument which is the name of the module class. It is often compared with SC_CTOR. Let's see how these two macros are defined:
@@ -203,6 +204,7 @@ My recommendation:
 
 ```
 
+## [>>>>>>> Back](#start)
 ## <a id="4"></a>4. Simulation Process
 
 **A systemC module is:**
@@ -270,6 +272,7 @@ Note, class is identical to struct except for its default access control mode of
     };
   ```
 
+## [>>>>>>> Back](#start)
 ## <a id="5"></a>5. Simulation Stages
 
 **The systemC application has three phases/stages of operation:**
@@ -348,6 +351,7 @@ Note, class is identical to struct except for its default access control mode of
 };
 ```
 
+## [>>>>>>> Back](#start)
 ## <a id="6"></a> 6. Time Notation
 
 **Let's first understand the difference of the two time measurements:**
@@ -386,6 +390,7 @@ To get current simulated time, use sc_time_stamp().
 }
 ```
 
+## [>>>>>>> Back](#start)
 ## <a id="7"></a> 7.Concurrency
 
 SystemC uses simulation processes to model concurrency. It's not true concurrent execution.
@@ -415,6 +420,7 @@ Let's understand the simulated concurrency with a simple example.
 };
 ```
 
+## [>>>>>>> Back](#start)
 ## <a id="8"></a> 8.Event
 
 An event is an object of class sc_event used for process synchronization.
@@ -485,6 +491,7 @@ Events can be combined with each other, and with a timer. This example shows a p
 
 ```
 
+## [>>>>>>> Back](#start)
 ## <a id="9"></a> 9.Combined Events
 
 **The following forms of wait() are supported.**
@@ -573,6 +580,7 @@ Note:
     sc_start();
 ```
 
+## [>>>>>>> Back](#start)
 ## <a></a> 10.Delta Cycle
 
 A delta cycle can be thought of as a very small step of time within the simulation, which does not increase the user-visible time.
@@ -625,6 +633,7 @@ When a signal assignment occurs, other processes do not see the newly assigned v
     }
 ```
 
+## [>>>>>>> Back](#start)
 ## <a id="11"></a> 11.Sensitivity
 
 The sensitivity of a process instance is the set of events and time-outs that can potentially cause the process to be resumed or triggered.
@@ -686,6 +695,7 @@ A time-out occurs when a given time interval has elapsed.
     };
 ```
 
+## [>>>>>>> Back](#start)
 ## <a id="12"></a> 12.Initialization
 
 Initialization is part of the execution stage, which happens after sc_start(). During initialization it perform the following three steps in the order given:
@@ -757,6 +767,7 @@ NOTE:
     };
 ```
 
+## [>>>>>>> Back](#start)
 ## <a id="13"></a> 13.Process: Method
 
 **Method:**
@@ -800,6 +811,7 @@ NOTE:
     };
 ```
 
+## [>>>>>>> Back](#start)
 ## <a id="14"></a> 14.Event Queue
 
 **An event queue:**
@@ -816,41 +828,42 @@ NOTE:
 
 ```sh
     SC_MODULE(QUEUE) {
-    sc_event e;
-    sc_event_queue eq;
-    SC_CTOR(QUEUE) {
-        SC_THREAD(trigger);
-        SC_THREAD(catch_e);
-        sensitive << e;     // catch_e() will be triggered by event e
-        dont_initialize();  // don't run cach_e() during initialization phase
-        SC_THREAD(catch_eq);
-        sensitive << eq;    // cach_eq() will be triggered by event queue eq
-        dont_initialize();  // don't run catch_eq() during initialization phase
-    }
-    void trigger() {
-        while (true) {
-            e.notify(2, SC_SEC);    // trigger e afer 2 s
-            e.notify(1, SC_SEC);    // trigger e after 1 s, replaces previous trigger
-            eq.notify(2, SC_SEC);   // trigger eq after 2 s
-            eq.notify(1, SC_SEC);   // trigger eq after 1 s, both triggers available
-            wait(10, SC_SEC);       // another round
+        sc_event e;
+        sc_event_queue eq;
+        SC_CTOR(QUEUE) {
+            SC_THREAD(trigger);
+            SC_THREAD(catch_e);
+            sensitive << e;     // catch_e() will be triggered by event e
+            dont_initialize();  // don't run cach_e() during initialization phase
+            SC_THREAD(catch_eq);
+            sensitive << eq;    // cach_eq() will be triggered by event queue eq
+            dont_initialize();  // don't run catch_eq() during initialization phase
         }
-    }
-    void catch_e() {
-        while (true) {
-            std::cout << sc_time_stamp() << ": catches e" << std::endl;
-            wait();     // no parameter --> wait for static sensitivity, i.e. e
+        void trigger() {
+            while (true) {
+                e.notify(2, SC_SEC);    // trigger e afer 2 s
+                e.notify(1, SC_SEC);    // trigger e after 1 s, replaces previous trigger
+                eq.notify(2, SC_SEC);   // trigger eq after 2 s
+                eq.notify(1, SC_SEC);   // trigger eq after 1 s, both triggers available
+                wait(10, SC_SEC);       // another round
+            }
         }
-    }
-    void catch_eq() {
-        while (true) {
-            std::cout << sc_time_stamp() << ": catches eq" << std::endl;
-            wait(); // wait for eq
+        void catch_e() {
+            while (true) {
+                std::cout << sc_time_stamp() << ": catches e" << std::endl;
+                wait();     // no parameter --> wait for static sensitivity, i.e. e
+            }
         }
-    }
+        void catch_eq() {
+            while (true) {
+                std::cout << sc_time_stamp() << ": catches eq" << std::endl;
+                wait(); // wait for eq
+            }
+        }
     };
 ```
 
+## [>>>>>>> Back](#start)
 ## <a id="15"></a> 15.Combined Event Queue
 
 1. Multiple event queues can be "OR"-ed to form the static sensitivity of a process.
@@ -881,6 +894,7 @@ NOTE:
     };
 ```
 
+## [>>>>>>> Back](#start)
 ## <a id="16"></a> 16.Mutex
 
 **A mutex:**
@@ -942,6 +956,7 @@ NOTE:
 };
 ```
 
+## [>>>>>>> Back](#start)
 ## <a id="17"></a> 17.Semaphore
 
 **A semaphore:**
@@ -1010,6 +1025,7 @@ NOTE:
     };
 ```
 
+## [>>>>>>> Back](#start)
 ## <a id="18"></a> 18.FIFO
 
 **sc_fifo:**
@@ -1122,6 +1138,7 @@ NOTE:
     };
 ```
 
+## [>>>>>>> Back](#start)
 ## <a id="19"></a> 19.Signal: read and write
 
 **sc_signal:**
@@ -1172,6 +1189,7 @@ NOTE:
     };
 ```
 
+## [>>>>>>> Back](#start)
 ## <a id="20"></a>20.Signal: detect event
 
 1. sc_event& default_event(), sc_event& value_changed_event(): return a reference to the value-changed event.
@@ -1216,6 +1234,7 @@ NOTE:
     };
 ```
 
+## [>>>>>>> Back](#start)
 ## <a id="21"></a>21.Signal: many writers
 
 **Class definition of sc_signal:**
@@ -1277,6 +1296,7 @@ As to consumers, an sc_signal may have more than one consumers. They can all rea
     };
 ```
 
+## [>>>>>>> Back](#start)
 ## <a id="22"></a>22.Resolved Signal
 
 A resolved signal is an object of class sc_signal_resolved or class sc_signal_rv. It differs from sc_signal in that a resolved signal may be written by multiple processes, conflicting values being resolved within the channel.
@@ -1334,6 +1354,8 @@ run
         }
     };
 ```
+
+## [>>>>>>> Back](#start)
 ## <a id="23"></a>23.sc_signal <'bool'>
 
 sc_signal_in_if<bool> and sc_signal_in_if<sc_dt::sc_logic> are interfaces that provide additional member functions appropriate for two-valued signals. sc_signal implements these functions:
@@ -1390,6 +1412,8 @@ sc_signal_in_if<bool> and sc_signal_in_if<sc_dt::sc_logic> are interfaces that p
     };
 
 ```
+
+## [>>>>>>> Back](#start)
 ## <a id="24"></a>24.Buffer
 
 sc_buffer is a predefined primitive channel derived from class sc_signal.
@@ -1438,6 +1462,8 @@ if current value of a "buffer" == 1: write 1 to it will trigger value update eve
         }
     };
 ```
+
+## [>>>>>>> Back](#start)
 ## <a id="25"></a>25.Communication: port
 
 **Three key concepts for communication:**
@@ -1519,6 +1545,8 @@ when to use port:
     sc_start(2, SC_SEC);
 
 ```
+
+## [>>>>>>> Back](#start)
 ## <a id="26"></a>26.Communication: export
 
 **An export:**
@@ -1563,6 +1591,7 @@ when to use port:
     };
 ```
 
+## [>>>>>>> Back](#start)
 ## <a id="27"></a>27.Communication: port 2 port
 
 So far we covered the cases of:
@@ -1577,8 +1606,63 @@ In all these cases, a channel is needed to connect the ports. There is a special
   module::port1 --> module::submodule::port2
 
 ```sh
-    
+    #include <systemc>
+    using namespace sc_core;
+
+    SC_MODULE(SUBMODULE1) { // a submodule that writes to channel
+        sc_port<sc_signal_out_if<int>> p;
+        SC_CTOR(SUBMODULE1) {
+            SC_THREAD(writer);
+        }
+        void writer() {
+            int val = 1; // init value
+            while (true) {
+            p->write(val++); // write to channel through port
+            wait(1, SC_SEC);
+            }
+        }
+        };
+        SC_MODULE(SUBMODULE2) { // a submodule that reads from channel
+            sc_port<sc_signal_in_if<int>> p;
+            SC_CTOR(SUBMODULE2) {
+                SC_THREAD(reader);
+                sensitive << p; // triggered by value change on the channel
+                dont_initialize();
+            }
+            void reader() {
+                while (true) {
+                std::cout << sc_time_stamp() << ": reads from channel, val=" << p->read() << std::endl;
+                wait(); // receives from channel through port
+                }
+            }
+        };
+        SC_MODULE(MODULE1) { // top-level module
+            sc_port<sc_signal_out_if<int>> p; // port
+            SUBMODULE1 sub1; // declares submodule
+            SC_CTOR(MODULE1): sub1("sub1") { // instantiate submodule
+                sub1.p(p); // bind submodule's port directly to parent's port
+            }
+        };
+        SC_MODULE(MODULE2) {
+            sc_port<sc_signal_in_if<int>> p;
+            SUBMODULE2 sub2;
+            SC_CTOR(MODULE2): sub2("sub2") {
+                sub2.p(p); // bind submodule's port directly to parent's port
+        }
+    };
+
+    int sc_main(int, char*[]) {
+        MODULE1 module1("module1"); // instantiate module1
+        MODULE2 module2("module2"); // instantiate module2
+        sc_signal<int> s; // define channel outside module1 and module2
+        module1.p(s); // bind module1's port to channel, for writing purpose
+        module2.p(s); // bind module2's port to channel, for reading purpose
+        sc_start(2, SC_SEC);
+        return 0;
+    }
 ```
+
+## [>>>>>>> Back](#start)
 ## <a id="28"></a>28.Communication: specialized ports
 
 Other than using the basic sc_port class to declare ports, there are various specialized port classes to use with different channel types, or provide additional functions:
@@ -1641,8 +1725,8 @@ In above listed member functions:
             wait(1, SC_SEC); // repeat after 1 s
             }
         }
-        };
-        SC_MODULE(READER) {
+    };
+    SC_MODULE(READER) {
         sc_in<bool> p1, p2; // specialized ports
         SC_CTOR(READER) {
             SC_THREAD(reader1);
@@ -1698,6 +1782,7 @@ In above listed member functions:
     }
 ```
 
+## [>>>>>>> Back](#start)
 ## <a id="29"></a>29.Communication: port array
 
 When declarying a port:
@@ -1768,19 +1853,19 @@ Example:
             SC_THREAD(reader9);
             sensitive << p9[0] << p9[1] << p9[2]; // sensitive to any element of port array p9
             dont_initialize();
-    }
-    void reader7() {
-        while (true) {
-            std::cout << sc_time_stamp() << "; reader7, port 0/1/2 = " << p7[0]->read() << "/" << p7[1]->read() << "/" << p7[2]->read() << std::endl;
-            wait();
         }
-    }
-    void reader9() {
-        while (true) {
-            std::cout << sc_time_stamp() << "; reader9, port 0/1/2 = " << p9[0]->read() << "/" << p9[1]->read() << "/" << p9[2]->read() << std::endl;
-            wait();
+        void reader7() {
+            while (true) {
+                std::cout << sc_time_stamp() << "; reader7, port 0/1/2 = " << p7[0]->read() << "/" << p7[1]->read() << "/" << p7[2]->read() << std::endl;
+                wait();
+            }
         }
-    }
+        void reader9() {
+            while (true) {
+                std::cout << sc_time_stamp() << "; reader9, port 0/1/2 = " << p9[0]->read() << "/" << p9[1]->read() << "/" << p9[2]->read() << std::endl;
+                wait();
+            }
+        }
     };
 
     int sc_main(int, char*[]) {
@@ -1827,6 +1912,7 @@ Example:
     }
 ```
 
+## [>>>>>>> Back](#start)
 ## <a id="30"></a>30.Primitive Channel
 
 sc_prim_channel:
@@ -1923,6 +2009,7 @@ A channel shall implement one or more interface, thus needs to inherit from an i
     }
 ```
 
+## [>>>>>>> Back](#start)
 ## <a id="31"></a>31.Hierarchical Channel
 
 A hierarchical channel:
@@ -2002,6 +2089,7 @@ This example shows a customized hierarchical channel that implements the sc_sign
     }
 ```
 
+## [>>>>>>> Back](#start)
 ## <a id="32"></a>32.Trace File
 
 A trace file:
@@ -2044,6 +2132,8 @@ run
         return 0;
     }
 ```
+
+## [>>>>>>> Back](#start)
 ## <a id="33"></a>33.Error and Message Report
 
 sc_report:
@@ -2142,6 +2232,8 @@ Verbosity level:
         return 0;
     }
 ```
+
+## [>>>>>>> Back](#start)
 ## <a id="34"></a>34.Customized Data Type
 
 sc_signal<T> and sc_fifo<T> can be used with various data types. SystemC has already supported T for build-in data types.
@@ -2210,6 +2302,8 @@ In order to use customized data types for sc_signal and sc_fifo, the following m
         return 0;
     }
 ```
+
+## [>>>>>>> Back](#start)
 ## <a id="35"></a>35.Clock
 
 sc_clock s a predefined primitive channel derived from the class sc_signal and intended to model the behavior of a digital clock signal. 
@@ -2253,7 +2347,8 @@ sc_clock(
         return 0;
     }
 ```
-  
+
+## [>>>>>>> Back](#start)
 ## <a id="36"></a>36.Process: CTHREAD
 
 SC_CTHREAD:
