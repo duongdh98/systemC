@@ -1,11 +1,11 @@
 #include "include/custom_gen.hpp"
 #include "include/pwm.hpp"
 
-// sc_main in top level function like in C++ main
 int sc_main(int argc, char* argv[]) {
 
     cout << "\n>>>=============================================================> \n \n";
 
+#if 1 /* PWM example */ 
     sc_signal<bool>         signal_clk;
     sc_signal< sc_uint<8> > m_value;
     sc_signal< sc_uint<8> > n_value;
@@ -75,6 +75,7 @@ int sc_main(int argc, char* argv[]) {
     }
 
     sc_close_vcd_trace_file(wf);
+#endif
 
     cout << "\n\n=== End Program of systemC    ==========================================================";
     return(0);
