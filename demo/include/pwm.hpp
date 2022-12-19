@@ -1,36 +1,35 @@
 #ifndef __PWM_H
 #define __PWM_H
 
-#include "../include/global.hpp"
+#include <systemc.h>
 
 class PWM : public sc_module
 {
 private:
-    /* data */
+    unsigned int count;
+    unsigned int m_read_value;
+    unsigned int n_read_value;
+    bool current_flag;
 public:
 
     SC_HAS_PROCESS(PWM);
     PWM(sc_module_name name);
     ~PWM();
 
-    int m_read_value;
-    int n_read_value;
-
-    sc_event            pwm_event;
     sc_in_clk           pwm_clk;
     sc_in <bool>        pwm_reset;
     sc_in <bool>        pwm_wr_enable;
-    sc_in < sc_uint <8> > pwm_wr_m_value;
-    sc_in < sc_uint <8> > pwm_wr_n_value;
+    sc_in < sc_uint <8> > m_val;
+    sc_in < sc_uint <8> > n_val;
     sc_out <bool>       pwm_out;
-    sc_out <bool>       pwm_time;
+    sc_out <bool>       pwm_flag;
+    sc_event            clock_event;
+    sc_event            flag_event;
 
-    void pwm_init();
     void read_values_method();
+    void handleClock(void);
     void process_thread_pwm_out();
-    void pwm_gen_output(int m_val, int n_val);
-    void pwm_reset_out();
-    void pwm_reset_wr();
+    void handleFlagThread(void);
 };
 
 #endif /* __PWM_H */
